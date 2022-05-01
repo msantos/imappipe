@@ -1,0 +1,7 @@
+--- {{ .Date }}
+From: {{ .Header.From | join ", " }}
+Subject: {{ .Header.Subject | strip }}
+Date: {{ .Header.Date }}
+
+{{ .Body | join "" | strip }}
+---
