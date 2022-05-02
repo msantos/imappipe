@@ -40,8 +40,8 @@ type Attachment struct {
 type Message struct {
 	Date       string
 	Header     Header
-	Body       string
-	Attachment Attachment
+	Body       []string
+	Attachment []Attachment
 }
 
 type stateT struct {
@@ -57,7 +57,7 @@ type stateT struct {
 }
 
 const (
-	version = "0.6.0"
+	version = "0.7.0"
 )
 
 var errEOF = errors.New("EOF: IDLE exited")
@@ -223,9 +223,6 @@ func (state *stateT) eventpoll(c *client.Client, mbox *imap.MailboxStatus) error
 
 		m.Header.Map = mr.Header.Map()
 
-		var body []string
-		var name []string
-
 		for {
 			p, err := mr.NextPart()
 			if err == io.EOF {
@@ -240,18 +237,15 @@ func (state *stateT) eventpoll(c *client.Client, mbox *imap.MailboxStatus) error
 				if err != nil {
 					log.Println(err)
 				}
-				body = append(body, string(b))
+				m.Body = append(m.Body, string(b))
 			case *mail.AttachmentHeader:
 				filename, err := h.Filename()
 				if err != nil {
 					log.Println(err)
 				}
-				name = append(name, filename)
+				m.Attachment = append(m.Attachment, Attachment{Name: filename})
 			}
 		}
-
-		m.Body = strings.Join(body, "\n")
-		m.Attachment.Name = strings.Join(name, ", ")
 
 		if err := state.output(m); err != nil {
 			log.Println(err)

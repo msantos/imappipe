@@ -1,6 +1,6 @@
 # SYNOPSIS
 
-imappipe [*options*] <server>:<port>
+imappipe [*options*] *server*:*port*
 
 # DESCRIPTION
 
@@ -49,7 +49,7 @@ Header
 :   Message headers. See _Header_.
 
 Body
-:   The message body.
+:   The list of message bodies.
 
 Attachment
 :   The list of files attached to the message. See _Attachment_.
@@ -95,7 +95,9 @@ Match a message field using a regular expression.
 
 ```
 {{ if re .Header.Subject "foo" -}}
-{{ .Body }}
+{{- range $v := .Body }}
+{{ $v }}
+{{- end }}
 {{- end }}
 ```
 
@@ -104,5 +106,5 @@ Match a message field using a regular expression.
 Remove any HTML elements from a message field.
 
 ```
-{{ .Body | strip }}
+{{ .Body | join "\n" | strip }}
 ```
