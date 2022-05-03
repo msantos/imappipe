@@ -52,12 +52,13 @@ type stateT struct {
 	template    string
 	pollTimeout time.Duration
 	verbose     int
+	noTLS       bool
 
 	*log.Logger
 }
 
 const (
-	version = "0.7.0"
+	version = "0.8.0"
 )
 
 var errEOF = errors.New("EOF: IDLE exited")
@@ -87,6 +88,8 @@ Usage: %s [<option>] <server>:<port>
 	pollTimeout := flag.Duration("poll-timeout", 0,
 		"Set poll interval if IDLE not supported")
 
+	noTLS := flag.Bool("no-tls", false, "Disable TLS IMAP")
+
 	verbose := flag.Int("verbose", 0,
 		"Enable debug messages")
 
@@ -113,6 +116,7 @@ Usage: %s [<option>] <server>:<port>
 		password:    *password,
 		template:    string(tmpl),
 		pollTimeout: *pollTimeout,
+		noTLS:       *noTLS,
 		verbose:     *verbose,
 		Logger:      log.New(os.Stdout, "", log.LstdFlags),
 	}
@@ -125,8 +129,15 @@ func main() {
 	}
 }
 
+func (state *stateT) dial() (*client.Client, error) {
+	if state.noTLS {
+		return client.Dial(state.imap)
+	}
+	return client.DialTLS(state.imap, nil)
+}
+
 func (state *stateT) connect() error {
-	c, err := client.DialTLS(state.imap, nil)
+	c, err := state.dial()
 	if err != nil {
 		return err
 	}

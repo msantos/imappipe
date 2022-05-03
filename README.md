@@ -35,6 +35,9 @@ username *string*
 verbose *int*
 :   Enable debug messages
 
+no-tls *bool*
+:   Disable connecting to the IMAP port using TLS
+
 # TEMPLATE
 
 See the [default
