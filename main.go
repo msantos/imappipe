@@ -341,7 +341,7 @@ func (state *stateT) output(m *Message) error {
 		return err
 	}
 
-	if _, err := fmt.Println(buf.String()); err != nil {
+	if _, err := os.Stdout.Write(buf.Bytes()); err != nil {
 		return err
 	}
 
