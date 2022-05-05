@@ -38,6 +38,14 @@ verbose *int*
 no-tls *bool*
 :   Disable connecting to the IMAP port using TLS
 
+# ENVIRONMENT VARIABLES
+
+IMAPPIPE_USERNAME
+:   Set default username
+
+IMAPPIPE_PASSWORD
+:   Set default password
+
 # TEMPLATE
 
 See the [default

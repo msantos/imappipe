@@ -58,13 +58,20 @@ type stateT struct {
 }
 
 const (
-	version = "0.8.0"
+	version = "0.9.0"
 )
 
 var errEOF = errors.New("EOF: IDLE exited")
 
 //go:embed template.txt
 var TextTemplate []byte
+
+func getenv(k, def string) string {
+	if v, ok := os.LookupEnv(k); ok {
+		return v
+	}
+	return def
+}
 
 func args() *stateT {
 	flag.Usage = func() {
@@ -77,9 +84,9 @@ Usage: %s [<option>] <server>:<port>
 
 	mailbox := flag.String("mailbox", imap.InboxName,
 		"IMAP mailbox")
-	username := flag.String("username", "",
+	username := flag.String("username", getenv("IMAPPIPE_USERNAME", ""),
 		"IMAP username")
-	password := flag.String("password", "",
+	password := flag.String("password", getenv("IMAPPIPE_PASSWORD", ""),
 		"IMAP password")
 
 	template := flag.String("template", "",
