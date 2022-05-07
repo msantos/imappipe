@@ -119,3 +119,23 @@ Remove any HTML elements from a message field.
 ```
 {{ .Body | join "\n" | strip }}
 ```
+
+## Example: Filter Messages Based on From Address
+
+```
+{{- $allow := false -}}
+{{- range $v := .Header.From -}}
+  {{- if re $v "(?i)<user@example.com>" -}}
+    {{- $allow = true -}}
+  {{- end -}}
+{{- end -}}
+{{- if $allow }}
+--- {{ .Date }}
+From: {{ .Header.From | join ", " }}
+Subject: {{ .Header.Subject | strip }}
+Date: {{ .Header.Date }}
+
+{{ .Body | join "\n" | strip }}
+---
+{{- end }}
+```
