@@ -53,12 +53,10 @@ type stateT struct {
 	pollTimeout time.Duration
 	verbose     int
 	noTLS       bool
-
-	*log.Logger
 }
 
 const (
-	version = "0.9.0"
+	version = "0.9.1"
 )
 
 var errEOF = errors.New("EOF: IDLE exited")
@@ -125,7 +123,6 @@ Usage: %s [<option>] <server>:<port>
 		pollTimeout: *pollTimeout,
 		noTLS:       *noTLS,
 		verbose:     *verbose,
-		Logger:      log.New(os.Stdout, "", log.LstdFlags),
 	}
 }
 
@@ -207,7 +204,7 @@ func (state *stateT) eventpoll(c *client.Client, mbox *imap.MailboxStatus) error
 		}
 
 		if state.verbose > 1 {
-			state.Printf("message: %+v\n", msg)
+			log.Printf("message: %+v\n", msg)
 		}
 
 		r := msg.GetBody(&section)
