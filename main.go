@@ -56,19 +56,32 @@ type stateT struct {
 }
 
 const (
-	version = "0.9.1"
+	version = "0.9.2"
 )
 
 var errEOF = errors.New("EOF: IDLE exited")
 
 //go:embed template.txt
-var TextTemplate []byte
+var DefaultTemplate string
 
 func getenv(k, def string) string {
 	if v, ok := os.LookupEnv(k); ok {
 		return v
 	}
 	return def
+}
+
+func readTemplate(template string) string {
+	if template == "" {
+		return DefaultTemplate
+	}
+
+	b, err := os.ReadFile(template)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	return string(b)
 }
 
 func args() *stateT {
@@ -105,21 +118,12 @@ Usage: %s [<option>] <server>:<port>
 		os.Exit(1)
 	}
 
-	tmpl := TextTemplate
-	var err error
-	if *template != "" {
-		tmpl, err = os.ReadFile(*template)
-		if err != nil {
-			log.Fatalln(err)
-		}
-	}
-
 	return &stateT{
 		imap:        flag.Arg(0),
 		mailbox:     *mailbox,
 		username:    *username,
 		password:    *password,
-		template:    string(tmpl),
+		template:    readTemplate(*template),
 		pollTimeout: *pollTimeout,
 		noTLS:       *noTLS,
 		verbose:     *verbose,
