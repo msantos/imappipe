@@ -1,4 +1,4 @@
-module imappipe
+module codeberg.org/msantos/imappipe
 
 go 1.18
 

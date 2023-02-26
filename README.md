@@ -8,6 +8,9 @@ Poll an IMAP mailbox and write the messages to standard output.
 
 # BUILDING
 
+    go install codeberg.org/msantos/imappipe
+
+    # to build from the git repository
     CGO_ENABLED=0 go build -trimpath -ldflags "-s -w"
 
 # EXAMPLES
