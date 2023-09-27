@@ -8,46 +8,50 @@ Poll an IMAP mailbox and write the messages to standard output.
 
 # BUILDING
 
-    go install codeberg.org/msantos/imappipe
+```
+go install codeberg.org/msantos/imappipe
 
-    # to build from the git repository
-    CGO_ENABLED=0 go build -trimpath -ldflags "-s -w"
+# to build from the git repository
+CGO_ENABLED=0 go build -trimpath -ldflags "-s -w"
+```
 
 # EXAMPLES
 
-    imappipe --username=user@example.com --password=example \
-      mail.example.com:993
+```
+imappipe --username=user@example.com --password=example \
+  mail.example.com:993
+```
 
 # OPTIONS
 
 mailbox *string*
-:   IMAP mailbox (default "INBOX")
+: IMAP mailbox (default "INBOX")
 
 password *string*
-:   IMAP password
+: IMAP password
 
 poll-timeout *duration*
-:   Set poll interval if IDLE not supported
+: Set poll interval if IDLE not supported
 
 template *string*
-:   message template
+: message template
 
 username *string*
-:   IMAP username
+: IMAP username
 
 verbose *int*
-:   Enable debug messages
+: Enable debug messages
 
 no-tls *bool*
-:   Disable connecting to the IMAP port using TLS
+: Disable connecting to the IMAP port using TLS
 
 # ENVIRONMENT VARIABLES
 
 IMAPPIPE_USERNAME
-:   Set default username
+: Set default username
 
 IMAPPIPE_PASSWORD
-:   Set default password
+: Set default password
 
 # TEMPLATE
 
@@ -57,41 +61,41 @@ template](https://github.com/msantos/imappipe/blob/master/template.txt).
 A message consists of the following fields:
 
 Date
-:   The time in RFC3339 format when the message was retrieved.
+: The time in RFC3339 format when the message was retrieved.
 
 Header
-:   Message headers. See _Header_.
+: Message headers. See *Header*.
 
 Body
-:   The list of message bodies.
+: The list of message bodies.
 
 Attachment
-:   The list of files attached to the message. See _Attachment_.
+: The list of files attached to the message. See *Attachment*.
 
 ## Header
 
 From
-:   The list of "from" addresses.
+: The list of "from" addresses.
 
 To
-:   The list of "to" addresses.
+: The list of "to" addresses.
 
 Date
-:   The message header date.
+: The message header date.
 
 Subject
-:   The message header subject.
+: The message header subject.
 
 Map
-:   A map containing all the message headers.
+: A map containing all the message headers.
 
 ## Attachment
 
 Name
-:   File name
+: File name
 
 Content
-:   File content
+: File content
 
 ## Functions
 
