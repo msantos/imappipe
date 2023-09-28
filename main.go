@@ -17,7 +17,7 @@ import (
 	"time"
 
 	"github.com/emersion/go-imap"
-	"github.com/emersion/go-imap-idle"
+	idle "github.com/emersion/go-imap-idle"
 	"github.com/emersion/go-imap/client"
 	"github.com/emersion/go-message/mail"
 
@@ -56,7 +56,7 @@ type stateT struct {
 }
 
 const (
-	version = "0.9.3"
+	version = "0.9.4"
 )
 
 var errEOF = errors.New("EOF: IDLE exited")
@@ -150,13 +150,13 @@ func (state *stateT) connect() error {
 		return err
 	}
 
-	defer func() {
-		_ = c.Logout()
-	}()
-
 	if err := c.Login(state.username, state.password); err != nil {
 		return err
 	}
+
+	defer func() {
+		_ = c.Logout()
+	}()
 
 	mbox, err := c.Select(state.mailbox, false)
 	if err != nil {
