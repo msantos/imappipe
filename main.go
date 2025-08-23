@@ -333,7 +333,8 @@ func (state *stateT) output(m *Message) error {
 			re := regexp.MustCompile(r)
 			return re.MatchString(s)
 		},
-		"join": func(sep string, s []string) string { return strings.Join(s, sep) },
+		"join":    func(sep string, s []string) string { return strings.Join(s, sep) },
+		"replace": func(s, old, newstr string) string { return strings.ReplaceAll(s, old, newstr) },
 		"strip": func(s string) string {
 			return html.UnescapeString(bluemonday.StrictPolicy().Sanitize(s))
 		},
