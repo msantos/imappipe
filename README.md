@@ -119,6 +119,14 @@ Match a message field using a regular expression.
 {{- end }}
 ```
 
+### replace
+
+Substitute a string with a new string.
+
+```
+{{ replace (.Body | join "" | strip) "\n" "" }}
+```
+
 ### strip
 
 Remove any HTML elements from a message field.
