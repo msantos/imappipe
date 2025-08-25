@@ -333,8 +333,15 @@ func (state *stateT) output(m *Message) error {
 			re := regexp.MustCompile(r)
 			return re.MatchString(s)
 		},
-		"join":    func(sep string, s []string) string { return strings.Join(s, sep) },
-		"replace": func(s, old, newstr string) string { return strings.ReplaceAll(s, old, newstr) },
+		"join": func(sep string, s []string) string { return strings.Join(s, sep) },
+		"replace": func(s, expr, repl string) string {
+			re, err := regexp.Compile(expr)
+			if err != nil {
+				log.Println(err)
+				return s
+			}
+			return re.ReplaceAllString(s, repl)
+		},
 		"strip": func(s string) string {
 			return html.UnescapeString(bluemonday.StrictPolicy().Sanitize(s))
 		},
