@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	_ "embed"
+	"encoding/json"
 	"errors"
 	"flag"
 	"fmt"
@@ -344,6 +345,13 @@ func (state *stateT) output(m *Message) error {
 		},
 		"strip": func(s string) string {
 			return html.UnescapeString(bluemonday.StrictPolicy().Sanitize(s))
+		},
+		"jsonescape": func(s string) string {
+			b, err := json.Marshal(s)
+			if err != nil {
+				return ""
+			}
+			return string(b)
 		},
 	}
 
