@@ -222,7 +222,8 @@ func (state *stateT) eventpoll(c *client.Client, mbox *imap.MailboxStatus) error
 
 		mr, err := mail.CreateReader(r)
 		if err != nil {
-			return err
+			log.Printf("Unable to parse message: %v: %+v", err, msg)
+			continue
 		}
 
 		if date, err := mr.Header.Date(); err == nil {
