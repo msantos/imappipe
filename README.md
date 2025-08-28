@@ -107,6 +107,14 @@ Concatenate an array of strings using the provided string.
 From: {{ .Header.From | join ", " }}
 ```
 
+### jsonescape
+
+Escape a string to use as a JSON value.
+
+```
+{"message": {{ jsonescape (strip (index .Body 0)) }}}
+```
+
 ### re
 
 Match a message field using a regular expression.
