@@ -1,4 +1,4 @@
-module codeberg.org/msantos/imappipe
+module go.iscode.ca/imappipe
 
 go 1.24.0
 
