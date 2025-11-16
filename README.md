@@ -1,3 +1,5 @@
+[![Go Reference](https://pkg.go.dev/badge/go.iscode.ca/imappipe.svg)](https://pkg.go.dev/go.iscode.ca/imappipe)
+
 # SYNOPSIS
 
 imappipe [*options*] *server*:*port*
