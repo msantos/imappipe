@@ -329,6 +329,33 @@ func (state *stateT) waitevent(c *client.Client) (*imap.MailboxStatus, error) {
 	}
 }
 
+var markdownEscaper = strings.NewReplacer(
+	// The backslash must be first.
+	`\`, `\\`,
+	`*`, `\*`,
+	`_`, `\_`,
+	`#`, `\#`,
+	"`", "\\`",
+	`[`, `\[`,
+	`]`, `\]`,
+	`(`, `\(`,
+	`)`, `\)`,
+	`>`, `\>`,
+	`+`, `\+`,
+	`-`, `\-`,
+	`.`, `\.`,
+	`!`, `\!`,
+	`|`, `\|`,
+	`~`, `\~`,
+)
+
+// mdescape takes a string and escapes special markdown characters.
+// Allows embedding text within a markdown document without its contents
+// being interpreted as markdown syntax.
+func mdescape(text string) string {
+	return markdownEscaper.Replace(text)
+}
+
 func (state *stateT) output(m *Message) error {
 	funcMap := template.FuncMap{
 		"re": func(s string, r string) bool {
@@ -354,6 +381,7 @@ func (state *stateT) output(m *Message) error {
 			}
 			return string(b)
 		},
+		"mdescape": mdescape,
 	}
 
 	tmpl, err := template.New("message").Funcs(funcMap).Parse(state.template)
