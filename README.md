@@ -113,8 +113,18 @@ From: {{ .Header.From | join ", " }}
 
 Escape a string to use as a JSON value.
 
-```
+```json
 {"message": {{ jsonescape (strip (index .Body 0)) }}}
+```
+
+### mdescape
+
+Escape a string to embed in a markdown document.
+
+```markdown
+| Message |
+| ------- |
+| {{ mdescape (strip (index .Body 0)) }} |
 ```
 
 ### re
