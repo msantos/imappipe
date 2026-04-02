@@ -278,7 +278,7 @@ func (state *stateT) eventpoll(c *client.Client, mbox *imap.MailboxStatus) error
 	}
 
 	item := imap.FormatFlagsOp(imap.AddFlags, true)
-	flags := []interface{}{imap.DeletedFlag}
+	flags := []any{imap.DeletedFlag}
 	if err := c.Store(seqset, item, flags, nil); err != nil {
 		return err
 	}
