@@ -10,7 +10,7 @@ Poll an IMAP mailbox and write the messages to standard output.
 
 # BUILDING
 
-```
+```bash
 go install go.iscode.ca/imappipe@latest
 
 # to build from the git repository
@@ -19,7 +19,7 @@ CGO_ENABLED=0 go build -trimpath -ldflags "-w"
 
 # EXAMPLES
 
-```
+```bash
 imappipe --username=user@example.com --password=example \
   mail.example.com:993
 ```
@@ -105,7 +105,7 @@ Content
 
 Concatenate an array of strings using the provided string.
 
-```
+```gotmpl
 From: {{ .Header.From | join ", " }}
 ```
 
@@ -113,7 +113,7 @@ From: {{ .Header.From | join ", " }}
 
 Escape a string to use as a JSON value.
 
-```json
+```gotmpl
 {"message": {{ jsonescape (strip (index .Body 0)) }}}
 ```
 
@@ -121,7 +121,7 @@ Escape a string to use as a JSON value.
 
 Escape a string to embed in a markdown document.
 
-```markdown
+```gotmpl
 | Message |
 | ------- |
 | {{ mdescape (strip (index .Body 0)) }} |
@@ -131,7 +131,7 @@ Escape a string to embed in a markdown document.
 
 Match a message field using a regular expression.
 
-```
+```gotmpl
 {{ if re .Header.Subject "foo" -}}
 {{- range $v := .Body }}
 {{ $v }}
@@ -143,7 +143,7 @@ Match a message field using a regular expression.
 
 Substitute a string with a new string.
 
-```
+```gotmpl
 {{ replace (.Body | join "" | strip) "\n" "" }}
 ```
 
@@ -151,13 +151,13 @@ Substitute a string with a new string.
 
 Remove any HTML elements from a message field.
 
-```
+```gotmpl
 {{ .Body | join "\n" | strip }}
 ```
 
 ## Example: Filter Messages Based on From Address
 
-```
+```gotmpl
 {{- $allow := false -}}
 {{- range $v := .Header.From -}}
   {{- if re $v "(?i)<user@example.com>" -}}
