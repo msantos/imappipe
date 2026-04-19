@@ -57,8 +57,7 @@ IMAPPIPE_PASSWORD
 
 # TEMPLATE
 
-See the [default
-template](https://github.com/msantos/imappipe/blob/master/template.txt).
+See the [default template](https://github.com/msantos/imappipe/blob/main/template.txt).
 
 A message consists of the following fields:
 
