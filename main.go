@@ -57,7 +57,7 @@ type stateT struct {
 }
 
 const (
-	version = "0.11.0"
+	version = "0.11.1"
 )
 
 var errEOF = errors.New("EOF: IDLE exited")
